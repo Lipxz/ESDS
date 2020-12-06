@@ -71,7 +71,7 @@ local function retry(player, dsFunction, dsInstance, ...)
 
     local dataStore = = dsInstance.dataStore
 
-    while tries < maxTries or not suc do
+    while tries < maxTries and not suc do
         tries += 1
 
         suc, err = pcall(function()
@@ -119,7 +119,7 @@ DataService.__index = DataService
 
 function DataService.new(dsName, scope)
     local self = setmetatable({
-        dataStore = DataStoreService:GetDataStore(dsName, scope),
+        dataStore = DataStoreService:GetDataStore(dsName, scope or 'global'),
         
         defaultData = {},
 

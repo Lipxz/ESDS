@@ -178,7 +178,7 @@ function DataService:Load(player)
 end
 
 function DataService:StartAutoSave()
-    self.autoSaveThread = coroutine.create()
+    self.autoSaveThread = coroutine.create(autoSave)
 end
 
 function DataService:StopAutoSave()

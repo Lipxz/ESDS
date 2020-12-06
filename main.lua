@@ -113,6 +113,19 @@ local function autoSave(dsInstance)
     end
 end
 
+local function getDir(dictionary, dirName, table)
+    table = table or dictionary
+
+    for i,qv in pairs(table) do
+        if type(v) == 'table' then
+            if i == dirName then     
+                return v
+            end
+        end
+    end
+end
+
+
 --// Module
 local DataService = {} 
 DataService.__index = DataService
@@ -183,6 +196,34 @@ end
 
 function DataService:StopAutoSave()
     coroutine.yield(self.autoSaveThread) 
+end
+
+function DataService:Insert(player, parentDirectory, indexName, value) 
+    local Directory = getDir(self.sessionData[player], parentDirectory)    
+
+    if Directory[ĩndexName] then 
+        warn('[DATA SERVICE]: Theres already a value named: ', indexName)
+    end
+
+    Directory[indexName] = value
+end
+
+function DataService:Get(player, data, defaultTable, table)
+    table = table or self.sessionData[player]
+    
+    for i,v in pairs(table) do
+        if type(v) == 'table' then
+            DataService:Get(player, data, v)            
+        elseif i == data then
+            return v
+        end
+    end
+
+    
+end
+
+function DataService:Set(player, data, newdata)
+
 end
 
 return DataService
